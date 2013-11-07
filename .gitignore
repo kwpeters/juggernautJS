@@ -1,0 +1,13 @@
+# Mac OS X files that are not needed.
+*.DS_Store
+
+# IDE specific Files
+.idea
+.settings
+
+# All log files
+*.log
+
+# Node.js modules should not be kept in version control.  Install them
+# using "npm install".
+/node_modules/

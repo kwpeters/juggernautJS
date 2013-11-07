@@ -1,0 +1,24 @@
+{
+  "name": "juggernautJS",
+  "version": "1.0.0",
+  "description": "Kevin's library of JavaScript goodies",
+  "main": "",
+  "bin": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://blah.blah.com/blah/blah.git"
+  },
+  "keywords": [
+    "juggernautJS"
+  ],
+  "author": "Kevin Peters",
+  "license": "",
+  "devDependencies": {
+    "robotskirt": "~2.7.1"
+  },
+  "dependencies": {
+  }
+}

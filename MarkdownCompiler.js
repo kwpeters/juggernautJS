@@ -1,12 +1,12 @@
 module.exports = (function () {
     'use strict';
 
-    var path  = require('path'),
+    var fs    = require('fs'),
+        path  = require('path'),
         rs    = require('robotskirt');
 
     // The constructor function that is exported from this module.
-    function MarkdownCompiler(grunt) {
-        this.grunt = grunt;
+    function MarkdownCompiler() {
     }
 
     // A function that will be used to override the HTML table rendering so we
@@ -55,7 +55,7 @@ module.exports = (function () {
         baseName = path.basename(sourceFile, extName);
         outputFile = path.join(dirName, baseName + '.html');
 
-        sourceFileContents = this.grunt.file.read(sourceFile);
+        sourceFileContents = fs.readFileSync(sourceFile, {encoding: 'utf8'});
         renderer = new rs.HtmlRenderer();
         renderer.table = renderTable;
 
@@ -66,56 +66,9 @@ module.exports = (function () {
         parser = new rs.Markdown(renderer, [rs.EXT_TABLES, rs.EXT_AUTOLINK,
             rs.EXT_FENCED_CODE, rs.EXT_STRIKETHROUGH]);
         outputFileContents = parser.render(sourceFileContents);
-        this.grunt.file.write(outputFile, outputFileContents);
+        fs.writeFileSync(outputFile, outputFileContents, {encoding: 'utf8'});
 
         callback(undefined, outputFile);
-    };
-
-
-    // Compiles a markdown file into a PDF document.
-    // sourceFile (string)   The path to the input markdown file
-    // callback(err, result) Callback that is called upon completion.
-    //                       If err is falsy, results will be the path to the
-    //                       output PDF file.
-    MarkdownCompiler.prototype.compileToPdf = function (sourceFile, callback) {
-        var sourceDirName,
-            sourceBaseName,
-            sourceExtName,
-            outputFile,
-            pdfTemplateFile,
-            pandocArgs,
-            pandocProcess;
-
-        pdfTemplateFile = path.join('..', 'pdf_template.tex');
-
-        sourceDirName = path.dirname(sourceFile);
-        sourceExtName = path.extname(sourceFile);
-        sourceBaseName = path.basename(sourceFile, sourceExtName);
-        outputFile = sourceBaseName + '.pdf';
-
-        pandocArgs = ['--template=' + pdfTemplateFile,
-                      '--latex-engine=xelatex',
-                      sourceBaseName + sourceExtName,
-                      '-o', outputFile];
-
-        pandocProcess = this.grunt.util.spawn(
-            {
-                cmd: 'pandoc',
-                args: pandocArgs,
-                opts: {cwd: sourceDirName}
-            },
-            function (error, result, code) {
-                if (error || (code !== 0)) {
-                    callback(
-                        new Error('Failed to generate ' + outputFile + ': ' +
-                                  String(result)),
-                        null);
-                } else {
-                    callback(undefined, path.join(sourceDirName, outputFile));
-                }
-
-            }
-        );
     };
 
     return MarkdownCompiler;

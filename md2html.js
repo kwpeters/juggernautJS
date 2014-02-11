@@ -1,4 +1,4 @@
-#! node
+#!/usr/bin/env node
 
 
 var MarkdownCompiler = require('./MarkdownCompiler.js'),    // the constructor

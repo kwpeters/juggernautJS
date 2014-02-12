@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 
-var MarkdownCompiler = require('./MarkdownCompiler.js'), // the constructor
-    mdCompiler = new MarkdownCompiler(),                 // a compiler instance
-    argv = require('optimist').argv,
-    os = require('os'),
-    fs = require('fs');
-
+var MarkdownCompiler = require('./MarkdownCompiler.js'); // the constructor
+var mdCompiler       = new MarkdownCompiler();                 // a compiler instance
+var argv             = require('minimist')(process.argv.slice(2));
+var os               = require('os');
+var fs               = require('fs');
 
 function main() {
     var filesToProcess = argv['_'],

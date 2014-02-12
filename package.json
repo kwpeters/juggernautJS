@@ -17,8 +17,9 @@
   "author": "Kevin Peters",
   "license": "",
   "devDependencies": {
-    "robotskirt": "~2.7.1"
   },
   "dependencies": {
+    "robotskirt": "~2.7.1",
+    "minimist": "0.0.7"
   }
 }

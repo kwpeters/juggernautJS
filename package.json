@@ -19,7 +19,5 @@
   "devDependencies": {
   },
   "dependencies": {
-    "robotskirt": "~2.7.1",
-    "minimist": "0.0.7"
   }
 }

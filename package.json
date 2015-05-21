@@ -5,7 +5,7 @@
   "main": "",
   "bin": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine-node --color src/"
   },
   "repository": {
     "type": "git",
@@ -15,11 +15,13 @@
     "juggernautJS"
   ],
   "author": "Kevin Peters",
-  "license": "",
-  "devDependencies": {
-  },
+  "license": "MIT",
+  "devDependencies": {},
   "dependencies": {
-    "robotskirt": "~2.7.1",
-    "minimist": "0.0.7"
+    "chalk": "1.0.0",
+    "lodash": "^3.8.0",
+    "q": "1.4.0",
+    "walk": "2.3.9",
+    "yargs": "3.9.0"
   }
 }

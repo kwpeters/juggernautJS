@@ -123,7 +123,7 @@ module.exports = (function () {
          * @returns {any} The removed item
          */
         self.removeAt = function removeAt(index) {
-            
+
             var removeNode = resolveIndex(index);
             if (removeNode === _endNode) {
                 throw new Error('Attempting to remove one past the end of linkedList.');
@@ -248,6 +248,17 @@ module.exports = (function () {
             // We have reached the desired node.
             return curNode;
         }
+    };
+
+
+    exports.linkedList.fromArray = function fromArray(srcArray) {
+        var newList = exports.linkedList();
+
+        srcArray.forEach(function (curItem) {
+            newList.push(curItem);
+        });
+
+        return newList;
     };
 
 

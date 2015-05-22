@@ -13,12 +13,14 @@ describe('LinkedList', function () {
 
     var llMod = require('./linkedList');
 
+
     it('should be creatable', function () {
         expect(_.isFunction(llMod.linkedList)).toBeTruthy();
 
         var aList = llMod.linkedList();
         expect(aList).toBeDefined();
     });
+
 
     it('should have a length property', function () {
         var aList = llMod.linkedList();
@@ -30,6 +32,7 @@ describe('LinkedList', function () {
         expect(aList.length).toBe(1);
     });
 
+
     it('should have an isEmpty property', function () {
         var aList = llMod.linkedList();
         expect(aList.isEmpty).toBeTruthy();
@@ -37,6 +40,7 @@ describe('LinkedList', function () {
         aList.push(1);
         expect(aList.isEmpty).toBeFalsy();
     });
+
 
     it('should allow pushing items onto the end', function () {
         var aList = llMod.linkedList();
@@ -55,6 +59,7 @@ describe('LinkedList', function () {
         aList.push('four limerick oysters').push('five corpulan porpoises');
         expect(aList.length).toBe(5);
     });
+
 
     it('should allow popping items from the end', function () {
         var aList = llMod.linkedList(),
@@ -80,6 +85,7 @@ describe('LinkedList', function () {
         expect(aList.length).toBe(0);
     });
 
+
     it('should allow unshifting onto the beginning', function () {
         var aList = llMod.linkedList();
         expect(aList.length).toBe(0);
@@ -96,6 +102,7 @@ describe('LinkedList', function () {
         aList.unshift(4).unshift(5);
         expect(aList.length).toBe(5);
     });
+
 
     it('should allow shifting items off the beginning', function () {
         var aList = llMod.linkedList(),
@@ -121,6 +128,7 @@ describe('LinkedList', function () {
         expect(aList.length).toBe(0);
     });
 
+
     it('should allow retieving the value at a specified index', function () {
         var aList = llMod.linkedList();
 
@@ -143,6 +151,7 @@ describe('LinkedList', function () {
         expect(function () {aList.item(-6);}).toThrow();
     });
 
+
     it('should allow insertion into the list', function () {
         var aList = llMod.linkedList();
         // When inserting into an empty list, only index 0 is allowed.
@@ -164,7 +173,7 @@ describe('LinkedList', function () {
 
     });
 
-    // todo: removeAt
+
     it('should allow removal from the list', function () {
         var aList = llMod.linkedList();
 
@@ -180,7 +189,24 @@ describe('LinkedList', function () {
         expect(aList.removeAt(0)).toBe('foo');
     });
 
-    // todo: fromArray
+
+    it('should support creation from an array', function () {
+        var src = [0, 1, 2, 3, 4],
+            list;
+
+        expect(_.isFunction(llMod.linkedList.fromArray)).toBeTruthy();
+
+        list = llMod.linkedList.fromArray(src);
+        expect(list.isEmpty).toBeFalsy();
+        expect(list.length).toBe(5);
+        expect(list.item(0)).toBe(0);
+        expect(list.item(1)).toBe(1);
+        expect(list.item(2)).toBe(2);
+        expect(list.item(3)).toBe(3);
+        expect(list.item(4)).toBe(4);
+    });
+
+
     // todo: toArray
 
 });

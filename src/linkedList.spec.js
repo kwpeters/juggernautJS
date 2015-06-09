@@ -207,6 +207,24 @@ describe('LinkedList', function () {
     });
 
 
-    // todo: toArray
+    it('should allow conversion to an array', function () {
+        var list = llMod.linkedList.fromArray([0, 1, 2]),
+            dest;
 
+        dest = list.toArray();
+        expect(_.isArray(dest)).toBeTruthy();
+        expect(dest.length).toBe(3);
+        expect(dest[0]).toBe(0);
+        expect(dest[1]).toBe(1);
+        expect(dest[2]).toBe(2);
+    });
+
+    // todo: iterator/iterable
+    // todo: clear
+    // todo: Make insertAt() accept an array of items to insert.
+    // todo: find(value, equals?, start?)
+    // todo: forEach
+    // todo: filter
+    // todo: map
+    // todo: reduce
 });

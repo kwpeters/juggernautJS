@@ -70,9 +70,10 @@ describe('Ranges', function () {
 
         expect(_.isFunction(ranges.union)).toBeTruthy();
         ranges.union(rm.range(5, 10));
+        expect(ranges.ranges()).toBeEqualSansFuncs([rm.range(5, 10)]);
 
-        //expect(_.isEqual(ranges.ranges(), [rm.range(5, 10)])).toBeTruthy();
-        expect(ranges.ranges()).toBeJsonEqual([rm.range(5, 10)]);
+        ranges.union(rm.range(1, 2));
+        //expect(ranges.ranges()).toBeEqualSansFuncs(([rm.range(1, 2), rm.range(5, 10)]));
     });
 
 });

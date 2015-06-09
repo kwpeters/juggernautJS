@@ -132,6 +132,20 @@ module.exports = (function () {
             return remove(removeNode);
         };
 
+
+        self.toArray = function toArray() {
+            var retArray = [],
+                curNode = _beginNode;
+
+            while (curNode !== _endNode) {
+                retArray.push(curNode.data);
+                curNode = curNode.next;
+            }
+
+            return retArray;
+        };
+
+
         return self;
 
         ////////////////////////////////////////////////////////////////////////

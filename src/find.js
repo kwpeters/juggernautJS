@@ -7,7 +7,10 @@ function doit() {
 
     var walk         = require("walk"),
         path         = require("path"),
-        ignoreDirs   = [".git", ".idea"];
+        regexHelpers = require("./regexHelpers"),
+        ignoreDirs   = [".git", ".idea"],
+        chalk        = require("chalk"),
+        highlight    = chalk.bold.red;;
 
     var pattern = new RegExp(process.argv[2], "i");
 
@@ -15,35 +18,19 @@ function doit() {
 
     walker.on("file", function (root, fileStats, next) {
         var absPath = path.join(root, fileStats.name);
-        testName(absPath, pattern);
+        var parts = regexHelpers.isMatch(absPath, pattern);
+        if (parts) {
+            console.log(parts[0] + highlight(parts[1]) + parts[2]);
+        }
         next();
     });
 
     walker.on("directory", function (root, dirStats, next) {
         var absPath = path.join(root, dirStats.name);
-        testName(absPath, pattern);
+        var parts = regexHelpers.isMatch(absPath, pattern);
+        if (parts) {
+            console.log(parts[0] + highlight(parts[1]) + parts[2]);
+        }
         next();
     });
-}
-
-
-function testName(name, pattern) {
-    "use strict";
-
-    var chalk        = require("chalk"),
-        highlight    = chalk.bold.red;
-    
-    var match = name.match(pattern);
-
-    if (match !== null) {
-        if (pattern) {
-            var before = match.input.slice(0, match.index);
-            var matching = match[0];
-            var after = match.input.slice(match.index + matching.length);
-
-            console.log(before + highlight(matching) + after);
-        } else {
-            console.log(name);
-        }
-    }
 }

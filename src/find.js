@@ -1,25 +1,49 @@
 #!/usr/bin/env node
 
-var walk = require("walk"),
-    fs   = require("fs"),
-    path = require("path");
+doit();
+
+function doit() {
+    "use strict";
+
+    var walk         = require("walk"),
+        path         = require("path"),
+        ignoreDirs   = [".git", ".idea"];
+
+    var pattern = new RegExp(process.argv[2], "i");
+
+    var walker = walk.walk(process.cwd(), {filters: ignoreDirs});
+
+    walker.on("file", function (root, fileStats, next) {
+        var absPath = path.join(root, fileStats.name);
+        testName(absPath, pattern);
+        next();
+    });
+
+    walker.on("directory", function (root, dirStats, next) {
+        var absPath = path.join(root, dirStats.name);
+        testName(absPath, pattern);
+        next();
+    });
+}
 
 
-var walker = walk.walk(process.cwd());
+function testName(name, pattern) {
+    "use strict";
 
+    var chalk        = require("chalk"),
+        highlight    = chalk.bold.red;
+    
+    var match = name.match(pattern);
 
-walker.on("file", function onFile(root, fileStats, next) {
-    var absPath = path.join(root, fileStats.name);
-    console.log("file: " + absPath);
-    next();
-});
+    if (match !== null) {
+        if (pattern) {
+            var before = match.input.slice(0, match.index);
+            var matching = match[0];
+            var after = match.input.slice(match.index + matching.length);
 
-
-walker.on("directory", function onFile(root, dirStats, next) {
-    var absPath = path.join(root, dirStats.name);
-    console.log("dir:  " + absPath);
-    next();
-});
-
-
-
+            console.log(before + highlight(matching) + after);
+        } else {
+            console.log(name);
+        }
+    }
+}

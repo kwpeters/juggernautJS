@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var path = require("path"),
+    _ = require("lodash"),
     regexHelpers = require("./regexHelpers"),
     chalk        = require("chalk"),
     highlight    = chalk.bold.red;
@@ -43,11 +44,29 @@ function filesystemSearchOnFile(root, fileStats, next) {
 
 function contentsSearchOnFile(root, fileStats, next) {
     var absPath = path.join(root, fileStats.name);
-    var parts = regexHelpers.isMatch(absPath, filesystemRegex);
+    var fileParts = regexHelpers.isMatch(absPath, filesystemRegex);
 
-    if (parts) {
-        console.log("Searching contents of " + path.join(root, fileStats.name) );
-        // todo: Search contents for contentsRegex.
+    if (fileParts) {
+        var fileHelpers = require("./fileHelpers");
+
+        fileHelpers.readLines(absPath)
+            .then(function (lines) {
+                var matchingLines = _.chain(lines)
+                    .map(
+                        function (curLine) {
+                            return regexHelpers.isMatch(curLine, contentsRegex);
+                        }
+                    )
+                    .filter(
+                        function (matchParts) {
+                            return matchParts;
+                        }
+                    )
+                    .value();
+
+                highlightLine(fileParts);
+                _.forEach(matchingLines, function (lineParts) { highlightLine(lineParts); });
+            });
     }
 
     next();
@@ -60,9 +79,6 @@ function filesystemSearchOnDirectory(root, dirStats, next) {
         highlightLine(parts);
     }
     next();
-    
-    
-    
 }
 
 function contentsSearchOnDirectory(root, dirStats, next) {

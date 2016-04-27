@@ -51,6 +51,10 @@ function contentsSearchOnFile(root, fileStats, next) {
 
         fileHelpers.readLines(absPath)
             .then(function (lines) {
+
+                // todo: Revise this function to include line number and possible lines of context
+                // around each matching line.
+
                 var matchingLines = _.chain(lines)
                     .map(
                         function (curLine) {
@@ -64,8 +68,12 @@ function contentsSearchOnFile(root, fileStats, next) {
                     )
                     .value();
 
-                highlightLine(fileParts);
-                _.forEach(matchingLines, function (lineParts) { highlightLine(lineParts); });
+                if (matchingLines.length > 0) {
+                    separator();
+                    highlightLine(fileParts);
+                    separator();
+                    _.forEach(matchingLines, function (lineParts) { highlightLine(lineParts); });
+                }
             });
     }
 
@@ -88,4 +96,10 @@ function contentsSearchOnDirectory(root, dirStats, next) {
 
 function highlightLine(parts) {
     console.log(parts[0] + highlight(parts[1]) + parts[2]);
+}
+
+
+function separator() {
+    var sep = "--------------------------------------------------------------------------------";
+    console.log(sep);
 }

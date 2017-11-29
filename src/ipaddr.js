@@ -40,4 +40,8 @@ function doIt() {
     }
 }
 
-doIt();
+
+if (require.main === module) {
+    doIt();
+}
+

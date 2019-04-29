@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 
 // Returns a string where leading zeroes are added until numDigits is reached.
 function lz(val, numDigits) {
